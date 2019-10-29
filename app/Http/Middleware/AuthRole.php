@@ -11,12 +11,12 @@ class AuthRole
      *
      * @param \Illuminate\Http\Request $request
      * @param \Closure $next
-     * @param String $role
+     * @param array $roles
      * @return mixed
      */
-    public function handle($request, Closure $next, String $role)
+    public function handle($request, Closure $next, ...$roles)
     {
-        if(!$request->user() || !$request->user()->hasRole($role)) {
+        if (!$request->user() || !$request->user()->hasAnyRole($roles)) {
             return redirect()->route('home');
         }
 

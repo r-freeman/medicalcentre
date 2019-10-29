@@ -11,6 +11,7 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        // only admin can access admin area
         $this->middleware('role:admin');
     }
 
