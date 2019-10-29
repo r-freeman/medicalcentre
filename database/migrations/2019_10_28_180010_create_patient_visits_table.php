@@ -25,14 +25,14 @@ class CreatePatientVisitsTable extends Migration
             // foreign key constraint on patient_visits.patient_id
             $table->foreign('patient_id')
                 ->references('id')
-                ->on('patients')
+                ->on('users')
                 ->onUpdate('cascade')
                 ->onDelete('restrict');
 
             // foreign key constraint on patient_visits.doctor_id
             $table->foreign('doctor_id')
                 ->references('id')
-                ->on('doctors')
+                ->on('users')
                 ->onUpdate('cascade')
                 ->onDelete('restrict');
         });
