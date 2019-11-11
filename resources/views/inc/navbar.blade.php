@@ -13,7 +13,7 @@
                 @auth
                     @role('admin')
                         <li class="nav-item">
-                            <a class="nav-link" href="">{{ __('Doctors') }}</a>
+                            <a class="nav-link" href="{{ route('admin.doctors.index') }}">{{ __('Doctors') }}</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="">{{ __('Patients') }}</a>
