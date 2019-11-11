@@ -66,7 +66,13 @@ class DoctorController extends Controller
      */
     public function show($id)
     {
-        //
+        $doctor = User::findOrFail($id);
+
+        // add start_date attribute from the role_data pivot table to this user
+        $doctor->addAttributesFromPivot('doctor', ['start_date']);
+
+        return view('admin.doctors.show')
+            ->with(['doctor' => $doctor]);
     }
 
     /**
