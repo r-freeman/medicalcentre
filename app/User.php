@@ -39,7 +39,12 @@ class User extends Authenticatable
 
     public function roles()
     {
-        return $this->belongsToMany('App\Role', 'role_data');
+        return $this->belongsToMany('App\Role', 'role_data')
+            ->withPivot([
+                'insured',
+                'policy_no',
+                'start_date'
+            ]);
     }
 
     public function hasRole($role)
@@ -50,5 +55,16 @@ class User extends Authenticatable
     public function hasAnyRole($roles)
     {
         return null !== $this->roles()->whereIn('name', $roles)->first();
+    }
+
+    /**
+     * @param $role
+     * @param array $pivotCols
+     */
+    public function addAttributesFromPivot($role, Array $pivotCols)
+    {
+        foreach($pivotCols as $col) {
+            $this->{$col} = $this->roles->where('name', $role)->first()->pivot->{$col};
+        }
     }
 }
