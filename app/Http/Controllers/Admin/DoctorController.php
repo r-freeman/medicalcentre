@@ -136,6 +136,14 @@ class DoctorController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $doctor = User::findOrFail($id);
+
+        // detach roles first
+        $doctor->detachRoles([$this->role]);
+
+        // User is soft deleted
+        $doctor->delete();
+
+        return redirect()->route('admin.doctors.index');
     }
 }
