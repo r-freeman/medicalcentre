@@ -14,52 +14,28 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        $faker = Faker\Factory::create();
+        // use UserFactory to create a user and attach admin role
+        factory(User::class, 1)->create()->each(function ($user) {
+            $user->roles()->attach(Role::where('name', 'admin')->first());
+        });
 
-        $roles = array(
-            'admin'  => Role::where('name', 'admin')->first(),
-            'doctor' => Role::where('name', 'doctor')->first(),
-            'patient'=> Role::where('name', 'patient')->first()
-        );
+        // use UserFactory to create 25 users and attach doctor role
+        factory(User::class, 25)->create()->each(function ($user) {
+            $user->roles()->attach(Role::where('name', 'doctor')->first(), [
+                // set start_date to today on role_data pivot table
+                'start_date' => new DateTime()
+            ]);
+        });
 
-        // create a user
-        $user = new User();
-        $user->name = $faker->name;
-        $user->address = $faker->streetAddress;
-        $user->phone = $faker->phoneNumber;
-        $user->email = $faker->safeEmail;
-        $user->password = bcrypt('secret');
-        $user->save();
+        // use UserFactory to create 50 user and attach patient role
+        factory(User::class, 50)->create()->each(function ($user) {
+            $insured = mt_rand(0, 1);
 
-        // attach admin role to user
-        $user->roles()->attach($roles['admin']);
-
-        // create a user
-        $user = new User();
-        $user->name = $faker->name;
-        $user->address = $faker->streetAddress;
-        $user->phone = $faker->phoneNumber;
-        $user->email = $faker->safeEmail;
-        $user->password = bcrypt('secret');
-        $user->save();
-
-        // attach doctor role and pass attributes into role_data pivot table
-        $user->roles()->attach($roles['doctor'], [
-            'start_date' => new DateTime()
-        ]);
-
-        // create user
-        $user = new User();
-        $user->name = $faker->name;
-        $user->address = $faker->streetAddress;
-        $user->phone = $faker->phoneNumber;
-        $user->email = $faker->safeEmail;
-        $user->password = bcrypt('secret');
-        $user->save();
-
-        // attach patient role and pass attributes into role_data pivot table
-        $user->roles()->attach($roles['patient'], [
-            'insured' => 0
-        ]);
+            $user->roles()->attach(Role::where('name', 'patient')->first(), [
+                // set insured and policy_no attributes on role_data pivot table
+                'insured' => $insured,
+                'policy_no' => $insured ? Str::upper(Str::random(10)) : null
+            ]);
+        });
     }
 }
