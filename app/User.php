@@ -63,8 +63,21 @@ class User extends Authenticatable
      */
     public function addAttributesFromPivot($role, Array $pivotCols)
     {
-        foreach($pivotCols as $col) {
+        foreach ($pivotCols as $col) {
             $this->{$col} = $this->roles->where('name', $role)->first()->pivot->{$col};
+        }
+    }
+
+    /**
+     * @param $role
+     * @param array $pivotCols
+     */
+    public function updatePivotAttributes($role, Array $pivotCols)
+    {
+        $pivot = $this->roles()->where('name', $role)->first()->pivot;
+        foreach ($pivotCols as $col => $value) {
+            $pivot->{$col} = $value;
+            $pivot->save();
         }
     }
 }

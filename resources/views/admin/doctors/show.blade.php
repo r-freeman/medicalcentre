@@ -6,11 +6,15 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        {{ $doctor->name }}
+                       View doctor
                     </div>
                     <div class="card-body">
                         <table class="table table-hover" id="doctors-table">
                             <tbody>
+                            <tr>
+                                <td>Name</td>
+                                <td>{{ $doctor->name }}</td>
+                            </tr>
                             <tr>
                                 <td>Address</td>
                                 <td>{{ $doctor->address }}</td>
@@ -31,7 +35,7 @@
                         </table>
 
                         <div class="btn-group-md" role="group" aria-label="Basic example">
-                            <a href="{{ route('admin.doctors.edit', $doctor->id) }}" class="btn btn-outline-primary">Edit</a>
+                            <a href="{{ route('admin.doctors.edit', $doctor->id) }}" class="btn btn-outline-success">Edit</a>
                             <form action="{{ route('admin.doctors.destroy', $doctor->id) }}"
                                   style="display: inline-block" method="POST">
                                 <input type="hidden" name="_method" value="DELETE">

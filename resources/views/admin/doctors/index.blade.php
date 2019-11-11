@@ -33,9 +33,9 @@
                                         <td>
                                             <div class="btn-group-md" role="group" aria-label="Basic example">
                                                 <a href="{{ route('admin.doctors.show', $doctor->id) }}"
-                                                   class="btn btn-outline-success">View</a>
+                                                   class="btn btn-outline-primary">View</a>
                                                 <a href="{{ route('admin.doctors.edit', $doctor->id) }}"
-                                                   class="btn btn-outline-primary">Edit</a>
+                                                   class="btn btn-outline-success">Edit</a>
                                                 <form action="{{ route('admin.doctors.destroy', $doctor->id) }}"
                                                       style="display: inline-block" method="POST">
                                                     <input type="hidden" name="_method" value="DELETE">

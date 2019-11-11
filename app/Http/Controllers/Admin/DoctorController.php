@@ -8,10 +8,13 @@ use Illuminate\Http\Request;
 
 class DoctorController extends Controller
 {
+    private $role;
+
     public function __construct()
     {
         $this->middleware('auth');
         $this->middleware('role:admin');
+        $this->role = 'doctor';
     }
 
     /**
@@ -23,12 +26,12 @@ class DoctorController extends Controller
     {
         // return collection of users with doctor role
         $doctors = User::whereHas('roles', function ($q) {
-            $q->where('name', 'doctor');
+            $q->where('name', $this->role);
         })->get();
 
         foreach ($doctors as $doctor) {
             // add attributes from the role_data pivot table to each doctor instance
-            $doctor->addAttributesFromPivot('doctor', ['start_date']);
+            $doctor->addAttributesFromPivot($this->role, ['start_date']);
         }
 
         return view('admin.doctors.index')
@@ -69,10 +72,10 @@ class DoctorController extends Controller
         $doctor = User::findOrFail($id);
 
         // add start_date attribute from the role_data pivot table to this user
-        $doctor->addAttributesFromPivot('doctor', ['start_date']);
+        $doctor->addAttributesFromPivot($this->role, ['start_date']);
 
         return view('admin.doctors.show')
-            ->with(['doctor' => $doctor]);
+            ->with([$this->role => $doctor]);
     }
 
     /**
@@ -83,7 +86,12 @@ class DoctorController extends Controller
      */
     public function edit($id)
     {
-        //
+        $doctor = User::findOrFail($id);
+
+        $doctor->addAttributesFromPivot($this->role, ['start_date']);
+
+        return view('admin.doctors.edit')
+            ->with([$this->role => $doctor]);
     }
 
     /**
@@ -95,7 +103,29 @@ class DoctorController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $doctor = User::findOrFail($id);
+
+        $request->validate([
+            'name' => 'required|max:191',
+            'address' => 'required|max:191',
+            'phone' => 'required|max:191',
+            'email' => 'required|max:191|unique:users,email,' . $doctor->id,
+            'start_date' => 'required|date'
+        ]);
+
+        $doctor->name = $request->input('name');
+        $doctor->address = $request->input('address');
+        $doctor->phone = $request->input('phone');
+        $doctor->email = $request->input('email');
+
+        // save updated attributes on the role_data pivot table
+        $doctor->updatePivotAttributes($this->role, [
+            'start_date' => $request->input('start_date')
+        ]);
+
+        $doctor->save();
+
+        return redirect()->route('admin.doctors.index');
     }
 
     /**
