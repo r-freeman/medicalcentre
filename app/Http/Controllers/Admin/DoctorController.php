@@ -7,7 +7,6 @@ use App\User;
 use App\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 
 class DoctorController extends Controller
 {
@@ -21,6 +20,8 @@ class DoctorController extends Controller
     }
 
     /**
+     * Define validator rules for store and update methods
+     *
      * @param $id
      * @param $passwordRequired
      * @return array
@@ -161,7 +162,7 @@ class DoctorController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * User is soft deleted, we might to still reference doctors in patient visits
      *
      * @param int $id
      * @return \Illuminate\Http\Response

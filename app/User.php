@@ -59,6 +59,8 @@ class User extends Authenticatable
     }
 
     /**
+     * Add attributes to the User model from role_data pivot table
+     *
      * @param $role
      * @param array $pivotCols
      */
@@ -70,6 +72,8 @@ class User extends Authenticatable
     }
 
     /**
+     * Update attributes in the role_data pivot table
+     *
      * @param $role
      * @param array $pivotCols
      */
@@ -84,6 +88,7 @@ class User extends Authenticatable
 
     /**
      * Used for detaching roles before a deletion
+     *
      * @param array $roles
      */
     public function detachRoles(Array $roles)
