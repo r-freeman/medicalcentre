@@ -88,7 +88,7 @@ class User extends Authenticatable
      */
     public function detachRoles(Array $roles)
     {
-        foreach($roles as $role) {
+        foreach ($roles as $role) {
             $this->roles()->detach($this->roles()->where('name', $role)->first());
         }
     }

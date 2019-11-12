@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\User;
+use App\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class DoctorController extends Controller
 {
@@ -15,6 +18,23 @@ class DoctorController extends Controller
         $this->middleware('auth');
         $this->middleware('role:admin');
         $this->role = 'doctor';
+    }
+
+    /**
+     * @param $id
+     * @param $passwordRequired
+     * @return array
+     */
+    protected function validatorRules($id, $passwordRequired)
+    {
+        return [
+            'name' => 'required|max:191',
+            'address' => 'required|max:191',
+            'phone' => 'required|max:191',
+            'email' => 'required|max:191|unique:users,email,' . $id,
+            'start_date' => 'required|date',
+            'password' => $passwordRequired ? 'required|min:8|confirmed' : 'min:0|confirmed'
+        ];
     }
 
     /**
@@ -35,9 +55,7 @@ class DoctorController extends Controller
         }
 
         return view('admin.doctors.index')
-            ->with([
-                'doctors' => $doctors
-            ]);
+            ->with(['doctors' => $doctors]);
     }
 
     /**
@@ -47,7 +65,7 @@ class DoctorController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.doctors.create');
     }
 
     /**
@@ -58,7 +76,24 @@ class DoctorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate($this->validatorRules('', true));
+
+        $doctor = new User();
+        $doctor->name = $request->input('name');
+        $doctor->address = $request->input('address');
+        $doctor->phone = $request->input('phone');
+        $doctor->email = $request->input('email');
+        $doctor->password = Hash::make($request->input('password'));
+
+        // save the user first
+        $doctor->save();
+
+        // attach doctor role and save start_date attribute in role_data pivot
+        $doctor->roles()->attach(Role::where('name', $this->role)->first(), [
+            'start_date' => $request->input('start_date'),
+        ]);
+
+        return redirect()->route('admin.doctors.index');
     }
 
     /**
@@ -105,18 +140,15 @@ class DoctorController extends Controller
     {
         $doctor = User::findOrFail($id);
 
-        $request->validate([
-            'name' => 'required|max:191',
-            'address' => 'required|max:191',
-            'phone' => 'required|max:191',
-            'email' => 'required|max:191|unique:users,email,' . $doctor->id,
-            'start_date' => 'required|date'
-        ]);
+        $request->validate($this->validatorRules($doctor->id, false));
 
         $doctor->name = $request->input('name');
         $doctor->address = $request->input('address');
         $doctor->phone = $request->input('phone');
         $doctor->email = $request->input('email');
+
+        // updating doctor password might not be updated
+        $request->input('password') !== null ? $doctor->password = Hash::make($request->input('password')) : $doctor->password;
 
         // save updated attributes on the role_data pivot table
         $doctor->updatePivotAttributes($this->role, [
