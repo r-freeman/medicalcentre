@@ -16,7 +16,7 @@
                             <a class="nav-link" href="{{ route('admin.doctors.index') }}">{{ __('Doctors') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">{{ __('Patients') }}</a>
+                            <a class="nav-link" href="{{ route('admin.patients.index') }}">{{ __('Patients') }}</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="">{{ __('Visits') }}</a>
