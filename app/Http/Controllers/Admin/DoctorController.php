@@ -34,7 +34,7 @@ class DoctorController extends Controller
             'phone' => 'required|max:191',
             'email' => 'required|max:191|unique:users,email,' . $id,
             'start_date' => 'required|date',
-            'password' => $passwordRequired ? 'required|min:8|confirmed' : 'min:0|confirmed'
+            'password' => $passwordRequired ? 'required|min:8|confirmed' : 'confirmed'
         ];
     }
 
@@ -148,8 +148,9 @@ class DoctorController extends Controller
         $doctor->phone = $request->input('phone');
         $doctor->email = $request->input('email');
 
-        // updating doctor password might not be updated
-        $request->input('password') !== null ? $doctor->password = Hash::make($request->input('password')) : $doctor->password;
+        if($request->input('password') !== null) {
+            $doctor->password = Hash::make($request->input('password'));
+        }
 
         // save updated attributes on the role_data pivot table
         $doctor->updatePivotAttributes($this->role, [
