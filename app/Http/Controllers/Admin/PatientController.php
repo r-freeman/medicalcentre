@@ -67,7 +67,16 @@ class PatientController extends Controller
      */
     public function show($id)
     {
-        //
+        $patient = User::findOrFail($id);
+
+        // add insured and policy_no attributes from the role_data pivot table to the patient
+        $patient->addAttributesFromPivot($this->role, [
+            'insured',
+            'policy_no'
+        ]);
+
+        return view('admin.patients.show')
+            ->with([$this->role => $patient]);
     }
 
     /**
