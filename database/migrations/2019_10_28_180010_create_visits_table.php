@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePatientVisitsTable extends Migration
+class CreateVisitsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,14 @@ class CreatePatientVisitsTable extends Migration
      */
     public function up()
     {
-        Schema::create('patient_visits', function (Blueprint $table) {
+        Schema::create('visits', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->dateTime('datetime');
+            $table->date('date');
+            $table->time('time');
             $table->integer('duration');
-            $table->decimal('cost');
             $table->bigInteger('patient_id')->unsigned();
             $table->bigInteger('doctor_id')->unsigned();
+            $table->decimal('cost');
             $table->timestamps();
 
             // foreign key constraint on patient_visits.patient_id
@@ -45,6 +46,6 @@ class CreatePatientVisitsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('patient_visits');
+        Schema::dropIfExists('visits');
     }
 }
