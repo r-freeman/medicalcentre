@@ -187,6 +187,14 @@ class PatientController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $patient = User::findOrFail($id);
+
+        // detach roles first
+        $patient->detachRoles([$this->role]);
+
+        // User is soft deleted
+        $patient->delete();
+
+        return redirect()->route('admin.patients.index');
     }
 }
