@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Role;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -67,7 +68,7 @@ class PatientController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.patients.create');
     }
 
     /**
@@ -78,7 +79,29 @@ class PatientController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $patient = new User();
+        $patient->name = $request->input('name');
+        $patient->address = $request->input('address');
+        $patient->phone = $request->input('phone');
+        $patient->email = $request->input('email');
+        $patient->password = Hash::make($request->input('password'));
+
+        // cast insured string to int
+        $insured = (int)$request->input('insured');
+
+        // validate user input
+        $request->validate($this->validatorRules('', true, $insured ? true : false));
+
+        // save the user
+        $patient->save();
+
+        // attach patient role and save insured, policy_no attributes in role_data pivot
+        $patient->roles()->attach(Role::where('name', $this->role)->first(), [
+            'insured' => $insured,
+            'policy_no' => $insured ? $request->input('policy_no') : null
+        ]);
+
+        return redirect()->route('admin.patients.index');
     }
 
     /**
