@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -46,6 +47,22 @@ class User extends Authenticatable
                 'policy_no',
                 'start_date'
             ]);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function patientVisits()
+    {
+        return $this->hasMany('App\Visit', 'patient_id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function doctorVisits()
+    {
+        return $this->hasMany('App\Visit', 'doctor_id');
     }
 
     public function hasRole($role)
