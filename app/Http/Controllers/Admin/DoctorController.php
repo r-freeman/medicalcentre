@@ -163,7 +163,7 @@ class DoctorController extends Controller
     }
 
     /**
-     * User is soft deleted, we might to still reference doctors in patient visits
+     * Doctor is soft deleted since we still need to refer to them in visits
      *
      * @param int $id
      * @return \Illuminate\Http\Response
@@ -172,10 +172,7 @@ class DoctorController extends Controller
     {
         $doctor = User::findOrFail($id);
 
-        // detach roles first
-        $doctor->detachRoles([$this->role]);
-
-        // User is soft deleted
+        // Soft delete doctor
         $doctor->delete();
 
         return redirect()->route('admin.doctors.index');

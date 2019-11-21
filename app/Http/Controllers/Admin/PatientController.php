@@ -180,7 +180,7 @@ class PatientController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Patient is soft deleted since we still need to refer to them in visits
      *
      * @param int $id
      * @return \Illuminate\Http\Response
@@ -189,10 +189,7 @@ class PatientController extends Controller
     {
         $patient = User::findOrFail($id);
 
-        // detach roles first
-        $patient->detachRoles([$this->role]);
-
-        // User is soft deleted
+        // Soft delete patient
         $patient->delete();
 
         return redirect()->route('admin.patients.index');

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
@@ -29,6 +30,11 @@ class AppServiceProvider extends ServiceProvider
         Blade::if('role', function ($expression) {
             $user = Auth::user();
             return $user->hasRole($expression);
+        });
+
+        // check if User was trashed (soft deleted)
+        Blade::if('wastrashed', function ($expression) {
+            return User::withTrashed()->find($expression)->trashed();
         });
     }
 }

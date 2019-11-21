@@ -19,7 +19,7 @@
                             <a class="nav-link" href="{{ route('admin.patients.index') }}">{{ __('Patients') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">{{ __('Visits') }}</a>
+                            <a class="nav-link" href="{{ route('admin.visits.index') }}">{{ __('Visits') }}</a>
                         </li>
                     @elserole('doctor')
                         <li class="nav-item">
