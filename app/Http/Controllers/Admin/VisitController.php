@@ -27,7 +27,7 @@ class VisitController extends Controller
     {
         return [
             'date' => 'required|date',
-            'time' => 'required|date_format:H:i',
+            'time' => 'required|date_format:H:i:s',
             'duration' => 'required|numeric',
             // make sure patient_id !== doctor_id
             'patient_id' => [
@@ -35,7 +35,7 @@ class VisitController extends Controller
                 'integer',
                 Rule::notIn([$doctor_id])
             ],
-            // make sure doctor id !== patient_id
+            // make sure doctor_id !== patient_id
             'doctor_id' => [
                 'required',
                 'integer',
@@ -108,7 +108,7 @@ class VisitController extends Controller
         $patient = User::find($request->input('patient_id'));
 
         // make sure user has patient role
-        if(!$patient->hasRole('patient')) {
+        if (!$patient->hasRole('patient')) {
             // invalidate the patient_id if user isn't a patient
             $request->merge(['patient_id' => null]);
         }
@@ -117,7 +117,7 @@ class VisitController extends Controller
         $doctor = User::find($request->input('doctor_id'));
 
         // make sure user has doctor role
-        if(!$doctor->hasRole('doctor')) {
+        if (!$doctor->hasRole('doctor')) {
             // invalidate the doctor_id if user isn't a doctor
             $request->merge(['doctor_id' => null]);
         }
@@ -174,7 +174,24 @@ class VisitController extends Controller
      */
     public function edit($id)
     {
-        //
+        $visit = Visit::findOrFail($id);
+
+        // get all patients
+        $patients = User::whereHas('roles', function ($q) {
+            $q->where('name', 'patient');
+        })->get();
+
+        // get all doctors
+        $doctors = User::whereHas('roles', function ($q) {
+            $q->where('name', 'doctor');
+        })->get();
+
+        return view('admin.visits.edit')
+            ->with([
+                'visit' => $visit,
+                'patients' => $patients,
+                'doctors' => $doctors
+            ]);
     }
 
     /**
@@ -186,7 +203,41 @@ class VisitController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // find the patient
+        $patient = User::find($request->input('patient_id'));
+
+        // make sure user has patient role
+        if (!$patient->hasRole('patient')) {
+            // invalidate the patient_id if user isn't a patient
+            $request->merge(['patient_id' => null]);
+        }
+
+        // find the doctor
+        $doctor = User::find($request->input('doctor_id'));
+
+        // make sure user has doctor role
+        if (!$doctor->hasRole('doctor')) {
+            // invalidate the doctor_id if user isn't a doctor
+            $request->merge(['doctor_id' => null]);
+        }
+
+        // find the visit
+        $visit = Visit::find($id);
+
+        $visit->date = $request->input('date');
+        $visit->time = $request->input('time');
+        $visit->duration = $request->input('duration');
+        $visit->patient_id = $request->input('patient_id');
+        $visit->doctor_id = $request->input('doctor_id');
+        $visit->cost = $request->input('cost');
+
+        // validate the user input
+        $request->validate($this->validatorRules($patient->id, $doctor->id));
+
+        // save the visit
+        $visit->save();
+
+        return redirect()->route('admin.visits.index');
     }
 
     /**
