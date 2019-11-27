@@ -59,7 +59,7 @@
                                                     <input type="hidden" name="_method" value="DELETE">
                                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                     <button type="submit" class="form-control btn btn-outline-danger"
-                                                            onclick="return confirm('Delete {{ $visit->name }}?')">
+                                                            onclick="return confirm('Delete this visit?')">
                                                         Delete
                                                     </button>
                                                 </form>

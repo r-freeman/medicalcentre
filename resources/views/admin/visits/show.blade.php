@@ -57,7 +57,7 @@
                                 <input type="hidden" name="_method" value="DELETE">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 <button type="submit" class="form-control btn btn-outline-danger"
-                                        onclick="return confirm('Delete {{ $visit->name }}?')">Delete
+                                        onclick="return confirm('Delete this visit?')">Delete
                                 </button>
                             </form>
                             <a href="{{ route('admin.visits.index') }}" onclick="window.history.go(-1); return false;" class="btn btn-outline">Back</a>
