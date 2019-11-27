@@ -36,32 +36,44 @@
                             </div>
                             <div class="form-group">
                                 <label for="patient_id">Patient {{ old('patient_id') }}</label>
-                                <select class="form-control" id="patient_id" name="patient_id">
-                                    @foreach($patients as $patient)
-                                        <option
-                                            value="{{ $patient->id }}"
-                                            @if(old('patient_id') == $patient->id)
-                                                selected
-                                            @elseif($visit->patient_id == $patient->id)
-                                                selected
-                                            @endif
-                                        >{{ $patient->name }}</option>
-                                    @endforeach
+                                <select class="form-control" id="patient_id" name="patient_id"
+                                    @wastrashed($visit->patient_id) disabled="disabled">
+                                        <option value="{{ $visit->patient_id }}">{{ $visit->patient_name }}</option>
+                                        <input type="hidden" id="patient_id" name="patient_id" value="{{ $visit->patient_id }}">
+                                    @else
+                                        >
+                                        @foreach($patients as $patient)
+                                            <option
+                                                value="{{ $patient->id }}"
+                                                @if(old('patient_id') == $patient->id)
+                                                    selected
+                                                @elseif($visit->patient_id == $patient->id)
+                                                    selected
+                                                @endif
+                                            >{{ $patient->name }}</option>
+                                        @endforeach
+                                    @endwastrashed
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="doctor_id">Doctor</label>
-                                <select class="form-control" id="doctor_id" name="doctor_id">
-                                    @foreach($doctors as $doctor)
-                                        <option
-                                            value="{{ $doctor->id }}"
-                                            @if(old('doctor_id') == $doctor->id)
+                                <select class="form-control" id="doctor_id" name="doctor_id"
+                                    @wastrashed($visit->doctor_id) disabled="disabled">
+                                        <option value="{{ $visit->doctor_id }}">{{ $visit->doctor_name }}</option>
+                                        <input type="hidden" id="doctor_id" name="doctor_id" value="{{ $visit->doctor_id }}">
+                                    @else
+                                        >
+                                        @foreach($doctors as $doctor)
+                                            <option
+                                                value="{{ $doctor->id }}"
+                                                @if(old('doctor_id') == $doctor->id)
                                                 selected
-                                            @elseif($visit->doctor_id == $doctor->id)
+                                                @elseif($visit->doctor_id == $doctor->id)
                                                 selected
-                                            @endif
-                                        >{{ $doctor->name }}</option>
-                                    @endforeach
+                                                @endif
+                                            >{{ $doctor->name }}</option>
+                                        @endforeach
+                                    @endwastrashed
                                 </select>
                             </div>
                             <div class="form-group">

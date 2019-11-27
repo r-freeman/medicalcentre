@@ -21,13 +21,14 @@ class VisitController extends Controller
      *
      * @param $patient_id
      * @param $doctor_id
+     * @param $create
      * @return array
      */
-    protected function validatorRules($patient_id, $doctor_id)
+    protected function validatorRules($patient_id, $doctor_id, $create)
     {
         return [
             'date' => 'required|date',
-            'time' => 'required|date_format:H:i:s',
+            'time' => $create ? 'required|date_format:H:i' : 'required|date_format:H:i:s',
             'duration' => 'required|numeric',
             // make sure patient_id !== doctor_id
             'patient_id' => [
@@ -132,7 +133,7 @@ class VisitController extends Controller
         $visit->cost = $request->input('cost');
 
         // validate the user input
-        $request->validate($this->validatorRules($patient->id, $doctor->id));
+        $request->validate($this->validatorRules($patient->id, $doctor->id, true));
 
         // save the visit
         $visit->save();
@@ -176,6 +177,18 @@ class VisitController extends Controller
     {
         $visit = Visit::findOrFail($id);
 
+        // using withTrashed because visit might reference a soft deleted patient
+        $patient = User::withTrashed()->find($visit->patient_id);
+
+        // using withTrashed because visit might reference a soft deleted doctor
+        $doctor = User::withTrashed()->find($visit->doctor_id);
+
+        // add patient and doctor names to visit
+        $visit->addAttributes([
+            'patient_name' => $patient->name,
+            'doctor_name' => $doctor->name
+        ]);
+
         // get all patients
         $patients = User::whereHas('roles', function ($q) {
             $q->where('name', 'patient');
@@ -204,7 +217,7 @@ class VisitController extends Controller
     public function update(Request $request, $id)
     {
         // find the patient
-        $patient = User::find($request->input('patient_id'));
+        $patient = User::withTrashed()->find($request->input('patient_id'));
 
         // make sure user has patient role
         if (!$patient->hasRole('patient')) {
@@ -213,7 +226,7 @@ class VisitController extends Controller
         }
 
         // find the doctor
-        $doctor = User::find($request->input('doctor_id'));
+        $doctor = User::withTrashed()->find($request->input('doctor_id'));
 
         // make sure user has doctor role
         if (!$doctor->hasRole('doctor')) {
@@ -232,7 +245,7 @@ class VisitController extends Controller
         $visit->cost = $request->input('cost');
 
         // validate the user input
-        $request->validate($this->validatorRules($patient->id, $doctor->id));
+        $request->validate($this->validatorRules($patient->id, $doctor->id, false));
 
         // save the visit
         $visit->save();
