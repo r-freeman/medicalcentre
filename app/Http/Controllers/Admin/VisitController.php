@@ -196,6 +196,10 @@ class VisitController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $visit = Visit::findOrFail($id);
+
+        $visit->delete();
+
+        return redirect()->route('admin.visits.index');
     }
 }
