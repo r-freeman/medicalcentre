@@ -110,8 +110,18 @@ class DoctorController extends Controller
         // add start_date attribute from the role_data pivot table to this user
         $doctor->addAttributesFromPivot($this->role, ['start_date']);
 
+        $doctorVisits = [];
+
+        foreach ($doctor->doctorVisits as $doctorVisit) {
+            $doctorVisit->addAttributes(['patient_name' => User::withTrashed()->find($doctorVisit->patient_id)->name]);
+            array_push($doctorVisits, $doctorVisit);
+        }
+
         return view('admin.doctors.show')
-            ->with([$this->role => $doctor]);
+            ->with([
+                $this->role => $doctor,
+                'doctorVisits' => $doctorVisits
+            ]);
     }
 
     /**
@@ -148,7 +158,7 @@ class DoctorController extends Controller
         $doctor->phone = $request->input('phone');
         $doctor->email = $request->input('email');
 
-        if($request->input('password') !== null) {
+        if ($request->input('password') !== null) {
             $doctor->password = Hash::make($request->input('password'));
         }
 
