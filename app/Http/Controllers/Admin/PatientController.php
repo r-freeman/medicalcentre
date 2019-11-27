@@ -120,8 +120,23 @@ class PatientController extends Controller
             'policy_no'
         ]);
 
+        $patientVisits = [];
+
+        // we want to include the doctor name for each patient visit
+        foreach ($patient->patientVisits as $patientVisit) {
+            // add doctor name to each patient visit (including soft deleted doctors)
+            $patientVisit->addAttributes(['doctor_name' => User::withTrashed()->find($patientVisit->doctor_id)->name]);
+
+            // push patientVisit into patientVisits array
+            array_push($patientVisits, $patientVisit);
+        }
+
+        // return view with patient and patient visits
         return view('admin.patients.show')
-            ->with([$this->role => $patient]);
+            ->with([
+                $this->role => $patient,
+                'patientVisits' => $patientVisits
+            ]);
     }
 
     /**
