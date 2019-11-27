@@ -148,7 +148,22 @@ class VisitController extends Controller
      */
     public function show($id)
     {
-        //
+        $visit = Visit::findOrFail($id);
+
+        // using withTrashed because visit might reference a soft deleted patient
+        $patient = User::withTrashed()->find($visit->patient_id);
+
+        // using withTrashed because visit might reference a soft deleted doctor
+        $doctor = User::withTrashed()->find($visit->doctor_id);
+
+        // add patient and doctor names to visit to display in template
+        $visit->addAttributes([
+            'patient_name' => $patient->name,
+            'doctor_name' => $doctor->name
+        ]);
+
+        return view('admin.visits.show')
+            ->with(['visit' => $visit]);
     }
 
     /**
