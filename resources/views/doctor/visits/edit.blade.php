@@ -62,7 +62,7 @@
                                        value="{{ old('cost', $doctorVisit->cost) }}">
                             </div>
                             <button class="btn btn-outline-success" type="submit">Update</button>
-                            <a href="{{ route('doctor.visits.index') }}" onclick="window.history.go(-1); return false;" class="btn btn-link float-right">Cancel</a>
+                            <a href="{{ route('doctor.visits.index') }}" class="btn btn-link float-right">Cancel</a>
                         </form>
                     </div>
                 </div>

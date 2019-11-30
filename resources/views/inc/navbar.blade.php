@@ -23,10 +23,7 @@
                         </li>
                     @elserole('doctor')
                         <li class="nav-item">
-                            <a class="nav-link" href="">{{ __('Patients') }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="">{{ __('Visits') }}</a>
+                            <a class="nav-link" href="{{ route('doctor.visits.index') }}">{{ __('Visits') }}</a>
                         </li>
                     @else
                         <li class="nav-item">
@@ -55,7 +52,7 @@
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <a href="" class="dropdown-item">{{ __('Profile') }}</a>
+                            <a href="{{ route('home') }}" class="dropdown-item">{{ __('Dashboard') }}</a>
 
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                onclick="event.preventDefault();

@@ -45,7 +45,7 @@
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" autocomplete="new-password">
                             </div>
                             <button class="btn btn-outline-success" type="submit">Update</button>
-                            <a href="{{ route('admin.doctors.index') }}" class="btn btn-link float-right">Cancel</a>
+                            <a href="{{ route('home') }}" class="btn btn-link float-right">Cancel</a>
                         </form>
                     </div>
                 </div>
