@@ -110,15 +110,12 @@ class DoctorController extends Controller
         // add start_date attribute from the role_data pivot table to this user
         $doctor->addAttributesFromPivot($this->role, ['start_date']);
 
-        $doctorVisits = [];
+        $doctorVisits = $doctor->doctorVisits()->get();
 
         // we want to include the patient name for each doctor visit
-        foreach ($doctor->doctorVisits as $doctorVisit) {
+        foreach ($doctorVisits as $doctorVisit) {
             // add patient name to each doctor visit (including soft deleted patients)
             $doctorVisit->addAttributes(['patient_name' => User::withTrashed()->find($doctorVisit->patient_id)->name]);
-
-            // push doctorVisit into doctorVisits array
-            array_push($doctorVisits, $doctorVisit);
         }
 
         // return view with doctor and doctor visits
