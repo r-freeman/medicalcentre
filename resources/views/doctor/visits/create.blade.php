@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="card">
-                    <div class="card-header">Add new visit</div>
+                    <div class="card-header">Add New Visit</div>
                     <div class="card-body">
                         @if ($errors->any())
                             <div class="alert alert-danger">
@@ -18,6 +18,7 @@
                         @endif
                         <form action="{{ route('doctor.visits.store') }}" method="POST">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            <input type="hidden" id="doctor_id" name="doctor_id" value="{{ Auth::user()->id }}">
                             <div class="form-group">
                                 <label for="date">Date</label>
                                 <input type="date" class="form-control" id="date" name="date" value="{{ old('date') }}">
@@ -39,7 +40,6 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <input type="hidden" id="doctor_id" name="doctor_id" value="{{ Auth::user()->id }}">
                             <div class="form-group">
                                 <label for="cost">Cost</label>
                                 <input type="text" class="form-control" id="cost" name="cost"
