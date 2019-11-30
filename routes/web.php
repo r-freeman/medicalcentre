@@ -43,3 +43,14 @@ Route::post('/admin/visits/store', 'Admin\VisitController@store')->name('admin.v
 Route::get('/admin/visits/{id}/edit', 'Admin\VisitController@edit')->name('admin.visits.edit');
 Route::put('/admin/visits/{id}', 'Admin\VisitController@update')->name('admin.visits.update');
 Route::delete('/admin/visits/{id}', 'Admin\VisitController@destroy')->name('admin.visits.destroy');
+
+Route::get('/doctor/{id}/edit', 'Doctor\DoctorController@edit')->name('doctor.edit');
+Route::put('/doctor/{id}', 'Doctor\DoctorController@update')->name('doctor.update');
+
+Route::get('/doctor/visits', 'Doctor\VisitController@index')->name('doctor.visits.index');
+Route::get('/doctor/visits/create', 'Doctor\VisitController@create')->name('doctor.visits.create');
+Route::get('/doctor/visits/{id}', 'Doctor\VisitController@show')->name('doctor.visits.show');
+Route::post('/doctor/visits/store', 'Doctor\VisitController@store')->name('doctor.visits.store');
+Route::get('/doctor/visits/{id}/edit', 'Doctor\VisitController@edit')->name('doctor.visits.edit');
+Route::put('/doctor/visits/{id}', 'Doctor\VisitController@update')->name('doctor.visits.update');
+Route::delete('/doctor/visits/{id}', 'Doctor\VisitController@destroy')->name('doctor.visits.destroy');
