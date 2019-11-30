@@ -52,7 +52,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card my-4">
+                        <div class="card">
                             <div class="card-header">
                                 <div class="d-flex justify-content-between">
                                     <p class="mb-0">Visits</p>
