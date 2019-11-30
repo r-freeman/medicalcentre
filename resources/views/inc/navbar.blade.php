@@ -27,7 +27,7 @@
                         </li>
                     @else
                         <li class="nav-item">
-                            <a class="nav-link" href="">{{ __('Visits') }}</a>
+                            <a class="nav-link" href="{{ route('patient.visits.index') }}">{{ __('Visits') }}</a>
                         </li>
                     @endrole
                 @endauth
