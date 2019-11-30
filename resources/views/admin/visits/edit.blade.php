@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="card">
-                    <div class="card-header">Edit visit</div>
+                    <div class="card-header">Edit Visit</div>
                     <div class="card-body">
                         @if ($errors->any())
                             <div class="alert alert-danger">

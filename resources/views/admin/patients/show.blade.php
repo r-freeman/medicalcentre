@@ -6,7 +6,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        View patient
+                        Patient
                     </div>
                     <div class="card-body">
                         <table class="table table-hover" id="patients-table">
