@@ -3,20 +3,31 @@
 namespace App\Http\Controllers\Patient;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
-    //
+    protected $role;
+
     public function __construct()
     {
         $this->middleware('auth');
-        // any registered user can access patient area
-        $this->middleware('role:admin,doctor,patient');
+        $this->middleware('role:patient');
+        $this->role = 'patient';
     }
 
     public function index()
     {
-        return view('patient.home');
+        // get the authenticated user
+        $patient = Auth::user();
+
+        // add insured and policy_no attribute from role_data pivot table
+        $patient->addAttributesFromPivot($this->role, [
+            'insured',
+            'policy_no'
+        ]);
+
+        return view('patient.home')
+            ->with([$this->role => $patient]);
     }
 }
