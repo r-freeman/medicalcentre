@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="card">
-                    <div class="card-header">Edit doctor</div>
+                    <div class="card-header">Edit Profile</div>
                     <div class="card-body">
                         @if ($errors->any())
                             <div class="alert alert-danger">
@@ -16,7 +16,7 @@
                                 </ul>
                             </div>
                         @endif
-                        <form method="POST" action="{{ route('admin.doctors.update', $doctor->id) }}">
+                        <form method="POST" action="{{ route('doctor.update', $doctor->id) }}">
                             <input type="hidden" name="_method" value="PUT">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <div class="form-group">
@@ -35,10 +35,7 @@
                                 <label for="email">Email</label>
                                 <input type="text" class="form-control" id="email" name="email" value="{{ old('email', $doctor->email) }}">
                             </div>
-                            <div class="form-group">
-                                <label for="start_date">Start Date</label>
-                                <input type="date" class="form-control" id="start_date" name="start_date" value="{{ old('start_date', $doctor->start_date) }}">
-                            </div>
+                            <input type="hidden" id="start_date" name="start_date" value="{{ $doctor->start_date }}">
                             <div class="form-group">
                                 <label for="password">Password</label>
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" autocomplete="new-password">
