@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Patient;
 
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -27,7 +28,19 @@ class HomeController extends Controller
             'policy_no'
         ]);
 
+        // get patient visits
+        $patientVisits = $patient->patientVisits()->get();
+
+        foreach ($patientVisits as $patientVisit) {
+            // add doctor name to each patient visit (included soft deleted doctors)
+            $patientVisit->addAttributes([
+                'doctor_name' => User::withTrashed()->find($patientVisit->doctor_id)->name]);
+        }
+
         return view('patient.home')
-            ->with([$this->role => $patient]);
+            ->with([
+                $this->role => $patient,
+                'patientVisits' => $patientVisits
+            ]);
     }
 }
