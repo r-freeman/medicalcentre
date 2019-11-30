@@ -13,8 +13,7 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        // only admin and doctors can access doctor area
-        $this->middleware('role:admin,doctor');
+        $this->middleware('role:doctor');
         $this->role = 'doctor';
     }
 
