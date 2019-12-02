@@ -3,19 +3,25 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
-    //
+    protected $role;
+
     public function __construct()
     {
         $this->middleware('auth');
-        // only admin can access admin area
         $this->middleware('role:admin');
+        $this->role = 'admin';
     }
 
     public function index()
     {
-        return view('admin.home');
+        // get the authenticated user
+        $admin = Auth::user();
+
+        return view('admin.home')
+            ->with([$this->role => $admin]);
     }
 }
