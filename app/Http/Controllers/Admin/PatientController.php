@@ -50,7 +50,7 @@ class PatientController extends Controller
         // return collection of users with patient role
         $patients = User::whereHas('roles', function ($q) {
             $q->where('name', $this->role);
-        })->get();
+        })->paginate(10);
 
         foreach ($patients as $patient) {
             // add attributes from the role_data pivot table to each patient instance
