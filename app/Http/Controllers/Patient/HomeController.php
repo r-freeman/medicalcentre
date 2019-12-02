@@ -29,7 +29,7 @@ class HomeController extends Controller
         ]);
 
         // get patient visits
-        $patientVisits = $patient->patientVisits()->get();
+        $patientVisits = $patient->patientVisits()->paginate(5);
 
         foreach ($patientVisits as $patientVisit) {
             // add doctor name to each patient visit (included soft deleted doctors)

@@ -107,6 +107,8 @@
                                         @endforeach
                                         </tbody>
                                     </table>
+
+                                    {{ $patientVisits->links() }}
                                 @endif
                             </div>
                         </div>
