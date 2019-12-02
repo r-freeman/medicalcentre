@@ -51,6 +51,8 @@
                                 @endforeach
                                 </tbody>
                             </table>
+
+                            {{ $doctors->links() }}
                         @endif
                     </div>
                 </div>

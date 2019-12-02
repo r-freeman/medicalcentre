@@ -48,7 +48,7 @@ class DoctorController extends Controller
         // return collection of users with doctor role
         $doctors = User::whereHas('roles', function ($q) {
             $q->where('name', $this->role);
-        })->get();
+        })->paginate(10);
 
         foreach ($doctors as $doctor) {
             // add attributes from the role_data pivot table to each doctor instance
