@@ -27,7 +27,7 @@ class HomeController extends Controller
             'start_date'
         ]);
 
-        $doctorVisits = $doctor->doctorVisits()->get();
+        $doctorVisits = $doctor->doctorVisits()->paginate(5);
 
         // we want to include the patient name for each doctor visit
         foreach ($doctorVisits as $doctorVisit) {

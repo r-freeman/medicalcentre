@@ -103,6 +103,8 @@
                                         @endforeach
                                         </tbody>
                                     </table>
+
+                                    {{ $doctorVisits->links() }}
                                 @endif
                             </div>
                         </div>
