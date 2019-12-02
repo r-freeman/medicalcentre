@@ -54,7 +54,7 @@ class VisitController extends Controller
      */
     public function index()
     {
-        $doctorVisits = Auth::user()->doctorVisits()->get();
+        $doctorVisits = Auth::user()->doctorVisits()->paginate(5);
 
         foreach ($doctorVisits as $visit) {
             // using withTrashed because visit might reference a soft deleted patient
