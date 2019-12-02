@@ -69,6 +69,8 @@
                                 @endforeach
                                 </tbody>
                             </table>
+
+                            {{ $visits->links() }}
                         @endif
                     </div>
                 </div>

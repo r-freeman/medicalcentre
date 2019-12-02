@@ -53,7 +53,7 @@ class VisitController extends Controller
      */
     public function index()
     {
-        $visits = Visit::all();
+        $visits = Visit::paginate(5);
 
         foreach ($visits as $visit) {
             // using withTrashed because visit might reference a soft deleted patient
