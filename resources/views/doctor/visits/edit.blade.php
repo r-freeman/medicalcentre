@@ -38,6 +38,7 @@
                             <div class="form-group">
                                 <label for="patient_id">Patient {{ old('patient_id') }}</label>
                                 <select class="form-control" id="patient_id" name="patient_id"
+                                    {{-- If patient was soft deleted, disable the select field and leave original patient_id --}}
                                     @wastrashed($doctorVisit->patient_id) disabled="disabled">
                                         <option value="{{ $doctorVisit->patient_id }}">{{ $doctorVisit->patient_name }}</option>
                                         <input type="hidden" id="patient_id" name="patient_id" value="{{ $doctorVisit->patient_id }}">
