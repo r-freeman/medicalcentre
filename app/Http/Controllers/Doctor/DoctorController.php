@@ -89,6 +89,7 @@ class DoctorController extends Controller
 
         $doctor->save();
 
-        return redirect()->route('doctor.home');
+        return redirect()->route('doctor.home')
+            ->with('success', 'Success! Your profile was updated.');
     }
 }
