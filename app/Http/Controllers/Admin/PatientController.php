@@ -122,7 +122,7 @@ class PatientController extends Controller
         ]);
 
         // get the patient visits
-        $patientVisits = $patient->patientVisits()->get();
+        $patientVisits = $patient->patientVisits()->paginate(5);
 
         // we want to include the doctor name for each patient visit
         foreach ($patientVisits as $patientVisit) {
