@@ -101,7 +101,8 @@ class PatientController extends Controller
             'policy_no' => $insured ? $request->input('policy_no') : null
         ]);
 
-        return redirect()->route('admin.patients.index');
+        return redirect()->route('admin.patients.index')
+            ->with('success', 'Success! Patient was created.');
     }
 
     /**
@@ -189,7 +190,8 @@ class PatientController extends Controller
 
         $patient->save();
 
-        return redirect()->route('admin.patients.index');
+        return redirect()->route('admin.patients.index')
+            ->with('success', 'Success! Patient was updated.');
     }
 
     /**
@@ -205,6 +207,7 @@ class PatientController extends Controller
         // Soft delete patient
         $patient->delete();
 
-        return redirect()->route('admin.patients.index');
+        return redirect()->route('admin.patients.index')
+            ->with('danger', 'Patient was deleted!');
     }
 }
