@@ -127,7 +127,8 @@ class VisitController extends Controller
         // save the visit
         $doctorVisit->save();
 
-        return redirect()->route('doctor.visits.index');
+        return redirect()->route('doctor.visits.index')
+            ->with('success', 'Success! Visit was created.');
     }
 
     /**
@@ -226,7 +227,8 @@ class VisitController extends Controller
         // save the visit
         $doctorVisit->save();
 
-        return redirect()->route('admin.visits.index');
+        return redirect()->route('doctor.visits.index')
+            ->with('success', 'Success! Visit was updated.');
     }
 
     /**
@@ -237,8 +239,10 @@ class VisitController extends Controller
     public function destroy($id)
     {
         $doctorVisit = Auth::user()->doctorVisits()->findOrFail($id);
+
         $doctorVisit->delete();
 
-        return redirect()->route('doctor.visits.index');
+        return redirect()->route('doctor.visits.index')
+            ->with('danger', 'Visit was cancelled!');
     }
 }
