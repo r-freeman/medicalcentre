@@ -111,7 +111,7 @@ class DoctorController extends Controller
         // add start_date attribute from the role_data pivot table to this user
         $doctor->addAttributesFromPivot($this->role, ['start_date']);
 
-        $doctorVisits = $doctor->doctorVisits()->get();
+        $doctorVisits = $doctor->doctorVisits()->paginate(5);
 
         // we want to include the patient name for each doctor visit
         foreach ($doctorVisits as $doctorVisit) {
