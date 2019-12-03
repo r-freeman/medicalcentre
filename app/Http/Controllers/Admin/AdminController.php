@@ -82,6 +82,7 @@ class AdminController extends Controller
 
         $admin->save();
 
-        return redirect()->route('home');
+        return redirect()->route('admin.home')
+            ->with('success', 'Success! Your profile was updated.');
     }
 }

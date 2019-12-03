@@ -11100,3 +11100,33 @@ a.text-dark:focus {
   }
 }
 
+.alert {
+  z-index: 99;
+  top: 60px;
+  right: 18px;
+  min-width: 10%;
+  position: fixed;
+  -webkit-animation: slide 0.5s forwards;
+          animation: slide 0.5s forwards;
+}
+
+@-webkit-keyframes slide {
+  100% {
+    top: 30px;
+  }
+}
+
+@keyframes slide {
+  100% {
+    top: 30px;
+  }
+}
+
+@media screen and (max-width: 668px) {
+  .alert {
+    /* center the alert on small screens */
+    left: 10px;
+    right: 10px;
+  }
+}
+

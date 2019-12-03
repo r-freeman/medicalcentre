@@ -4,6 +4,13 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
+                {{-- Display success flash message if it was set --}}
+                @if(session('success'))
+                    @component('success')
+                        <strong>{{ session('success') }}</strong>
+                    @endcomponent
+                @endif
+
                 <div class="card">
                     <div class="card-header">Dashboard</div>
 
@@ -44,7 +51,8 @@
                                     </tbody>
                                 </table>
                                 <div class="btn-group-md" role="group" aria-label="Basic example">
-                                    <a href="{{ route('admin.edit', $admin->id) }}" class="btn btn-outline-success">Edit</a>
+                                    <a href="{{ route('admin.edit', $admin->id) }}"
+                                       class="btn btn-outline-success">Edit</a>
                                 </div>
                             </div>
                         </div>
