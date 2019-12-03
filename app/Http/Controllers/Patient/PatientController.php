@@ -98,6 +98,7 @@ class PatientController extends Controller
 
         $patient->save();
 
-        return redirect()->route('home');
+        return redirect()->route('patient.home')
+            ->with('success', 'Success! Your profile was updated.');
     }
 }

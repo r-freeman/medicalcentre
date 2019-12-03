@@ -4,6 +4,13 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
+                {{-- Display success flash message if it was set --}}
+                @if(session('success'))
+                    @component('success')
+                        <strong>{{ session('success') }}</strong>
+                    @endcomponent
+                @endif
+
                 <div class="card">
                     <div class="card-header">Dashboard</div>
 
