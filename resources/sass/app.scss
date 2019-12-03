@@ -7,7 +7,7 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
-.alert{
+.flash{
     z-index: 99;
     top: 60px;
     right:18px;
@@ -19,7 +19,7 @@
     100% { top: 30px; }
 }
 @media screen and (max-width: 668px) {
-    .alert{ /* center the alert on small screens */
+    .flash{ /* center the alert on small screens */
         left: 10px;
         right: 10px;
     }

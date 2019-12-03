@@ -62,5 +62,9 @@ Route::get('/patient/{id}/edit', 'Patient\PatientController@edit')->name('patien
 Route::put('/patient/{id}', 'Patient\PatientController@update')->name('patient.update');
 
 Route::get('/patient/visits', 'Patient\VisitController@index')->name('patient.visits.index');
+Route::get('/patient/visits/create', 'Patient\VisitController@create')->name('patient.visits.create');
 Route::get('/patient/visits/{id}', 'Patient\VisitController@show')->name('patient.visits.show');
+Route::post('/patient/visits/store', 'Patient\VisitController@store')->name('patient.visits.store');
+Route::get('/patient/visits/{id}/edit', 'Patient\VisitController@edit')->name('patient.visits.edit');
+Route::put('/patient/visits/{id}', 'Patient\VisitController@update')->name('patient.visits.update');
 Route::delete('/patient/visits/{id}', 'Patient\VisitController@destroy')->name('patient.visits.destroy');

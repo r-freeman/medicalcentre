@@ -36985,8 +36985,8 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/ryan/GDrive/devilbox/data/www/medicalcentre/medicalcentre/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/ryan/GDrive/devilbox/data/www/medicalcentre/medicalcentre/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/ryan/Insync/N00173767@student.iadt.ie/Google Drive/devilbox/data/www/medicalcentre/medicalcentre/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/ryan/Insync/N00173767@student.iadt.ie/Google Drive/devilbox/data/www/medicalcentre/medicalcentre/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

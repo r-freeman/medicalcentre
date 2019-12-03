@@ -32,7 +32,7 @@
         // close the alert after 3 seconds.
         $(document).ready(function(){
             setTimeout(function() {
-                $(".alert").alert('close');
+                $(".flash").alert('close');
             }, 3000);
         });
     </script>

@@ -11,10 +11,18 @@
                     @endcomponent
                 @endif
 
+                {{-- Display success flash message if it was set --}}
+                @if(session('success'))
+                    @component('success')
+                        <strong>{{ session('success') }}</strong>
+                    @endcomponent
+                @endif
+
                 <div class="card">
                     <div class="card-header">
                         <div class="d-flex justify-content-between">
                             <p class="mb-0">Visits</p>
+                            <a href="{{ route('patient.visits.create') }}">Add New Visit</a>
                         </div>
                     </div>
                     <div class="card-body">
