@@ -35,6 +35,7 @@
                         </table>
 
                         <div class="btn-group-md" role="group" aria-label="Basic example">
+                            <a href="{{ route('patient.visits.edit', $patientVisit->id) }}" class="btn btn-outline-success">Edit</a>
                             <form action="{{ route('patient.visits.destroy', $patientVisit->id) }}"
                                   style="display: inline-block" method="POST">
                                 <input type="hidden" name="_method" value="DELETE">

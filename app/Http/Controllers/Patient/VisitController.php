@@ -154,6 +154,84 @@ class VisitController extends Controller
     }
 
     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        // get the patient visit
+        $patientVisit = Auth::user()->patientVisits()->findOrFail($id);
+
+        // find the doctor and include soft deleted doctors
+        $doctor = User::withTrashed()->find($patientVisit->doctor_id);
+
+        // add doctor name to visit
+        $patientVisit->addAttributes([
+            'doctor_name' => $doctor->name
+        ]);
+
+        // get all users with doctor role
+        $doctors = User::whereHas('roles', function ($q) {
+            $q->where('name', 'doctor');
+        })->get();
+
+        return view('patient.visits.edit')
+            ->with([
+                'patientVisit' => $patientVisit,
+                'doctors' => $doctors
+            ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        // find the doctor
+        $doctor = User::withTrashed()->find($request->input('doctor_id'));
+
+        // make sure user has doctor role
+        if (!$doctor->hasRole('doctor')) {
+            // invalidate the doctor_id
+            $request->merge(['doctor_id' => null]);
+        }
+
+        // patient should be the authenticated user
+        $patient = Auth::user();
+
+        // make sure user has patient role and patient id matches the patient id in form
+        if (!$patient->hasRole('patient') && $patient->id !== $request->input('patient_id')) {
+            // invalidate the patient_id
+            $request->merge(['patient_id' => null]);
+        }
+
+        // find the doctor visit
+        $patientVisit = $patient->patientVisits()->findOrFail($id);
+
+        $patientVisit->date = $request->input('date');
+        $patientVisit->time = $request->input('time');
+        $patientVisit->duration = $request->input('duration');
+        $patientVisit->patient_id = $request->input('patient_id');
+        $patientVisit->doctor_id = $request->input('doctor_id');
+        $patientVisit->cost = $request->input('cost');
+
+        // validate the user input
+        $request->validate($this->validatorRules($patient->id, $doctor->id, false));
+
+        // save the visit
+        $patientVisit->save();
+
+        return redirect()->route('patient.visits.index')
+            ->with('success', 'Success! Visit was updated.');
+    }
+
+    /**
      *
      * @param int $id
      * @return \Illuminate\Http\Response
