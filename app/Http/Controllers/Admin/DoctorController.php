@@ -94,7 +94,8 @@ class DoctorController extends Controller
             'start_date' => $request->input('start_date'),
         ]);
 
-        return redirect()->route('admin.doctors.index');
+        return redirect()->route('admin.doctors.index')
+            ->with('success', 'Success! Doctor was created.');
     }
 
     /**
@@ -171,7 +172,8 @@ class DoctorController extends Controller
 
         $doctor->save();
 
-        return redirect()->route('admin.doctors.index');
+        return redirect()->route('admin.doctors.index')
+            ->with('success', 'Success! Doctor was updated.');
     }
 
     /**
@@ -187,6 +189,7 @@ class DoctorController extends Controller
         // Soft delete doctor
         $doctor->delete();
 
-        return redirect()->route('admin.doctors.index');
+        return redirect()->route('admin.doctors.index')
+            ->with('danger', 'Doctor was deleted!');
     }
 }
