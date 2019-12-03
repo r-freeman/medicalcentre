@@ -138,7 +138,8 @@ class VisitController extends Controller
         // save the visit
         $visit->save();
 
-        return redirect()->route('admin.visits.index');
+        return redirect()->route('admin.visits.index')
+            ->with('success', 'Success! Visit was created.');
     }
 
     /**
@@ -250,7 +251,8 @@ class VisitController extends Controller
         // save the visit
         $visit->save();
 
-        return redirect()->route('admin.visits.index');
+        return redirect()->route('admin.visits.index')
+            ->with('success', 'Success! Visit was updated.');
     }
 
     /**
@@ -264,6 +266,7 @@ class VisitController extends Controller
 
         $visit->delete();
 
-        return redirect()->route('admin.visits.index');
+        return redirect()->route('admin.visits.index')
+            ->with('danger', 'Visit was deleted!');
     }
 }

@@ -4,6 +4,20 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
+                {{-- Display error flash message if it was set --}}
+                @if(session('danger'))
+                    @component('danger')
+                        <strong>{{ session('danger') }}</strong>
+                    @endcomponent
+                @endif
+
+                {{-- Display success flash message if it was set --}}
+                @if(session('success'))
+                    @component('success')
+                        <strong>{{ session('success') }}</strong>
+                    @endcomponent
+                @endif
+
                 <div class="card">
                     <div class="card-header">
                         <div class="d-flex justify-content-between">
