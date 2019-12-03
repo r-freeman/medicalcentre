@@ -69,6 +69,7 @@ class VisitController extends Controller
         $patientVisit = Auth::user()->patientVisits()->findOrFail($id);
         $patientVisit->delete();
 
-        return redirect()->route('patient.visits.index');
+        return redirect()->route('patient.visits.index')
+            ->with('danger', 'Visit was cancelled!');
     }
 }
